@@ -1,0 +1,15 @@
+{
+  "name": "camGrid",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.build.js",
+  "dependencies": {
+    "express": "^4.13.2",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.2.0",
+    "gulp-concat": "^2.6.0"
+  },
+  "devDependencies": {
+    "gulp-plumber": "^1.0.1"
+  }
+}
