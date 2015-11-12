@@ -187,11 +187,16 @@ function createTriangle_basic () {
   })
 
   let mesh = new t.Mesh(geometry, material)
+  mesh.name = 'triangle'
 
   scene.add(mesh)
 }
 
 createTriangle_basic()
+
+// getObjectByName('triangle').geometry.verticesNeedUpdate = true
+// getObjectByName('triangle').geometry.vertices[0] = new t.Vector3(0,3,0)
+// getObjectByName('triangle').geometry.verticesNeedUpdate = true
 
 
 // ========== GEOMETRY CREATION / end ============
@@ -233,9 +238,13 @@ function render () {
 
   if (controller.modifiers.shift) {
     camera.controls.movement.speed = camera.controls.movement.speedBase * controller.modifiers.shiftSpeed
+    getObjectByName('triangle').geometry.vertices[0] = new t.Vector3(0,5,0)
+    getObjectByName('triangle').geometry.verticesNeedUpdate = true
   }
   else {
     camera.controls.movement.speed = camera.controls.movement.speedBase
+    getObjectByName('triangle').geometry.vertices[0] = new t.Vector3(0,1,0)
+    getObjectByName('triangle').geometry.verticesNeedUpdate = true
   }
 
   if (camera.controls.mouse.leftClick) {
