@@ -20,7 +20,7 @@ gulp.task('server', function() {
 })
 
 gulp.task('watch', function() {
-  gulp.watch('js/**/*.js', ['gameScripts', 'server'])
+  gulp.watch(['js/**/*.js', 'js/**/*.jsx'], ['gameScripts', 'server'])
 })
 
 gulp.task('default', ['gameScripts', 'server', 'watch'])

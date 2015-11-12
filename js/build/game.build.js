@@ -153,7 +153,6 @@ function moveObjectByName(objectName, position) {
 }
 
 // GEOMETRY HELPERS
-//
 
 // DEFAULT GEOMETRY VALUES
 var defaultWFMaterial = {
@@ -175,7 +174,30 @@ var defaultWFPlane = {
 // ========== GEOMETRY MODIFICATION / end ============
 
 // ========== GEOMETRY CREATION / start ==========
-// start with triangles
+function createTriangle_basic() {
+  var geometry = new t.Geometry();
+  geometry.vertices.push(new t.Vector3(0, 1, 0));
+  geometry.vertices.push(new t.Vector3(-1, -1, 0));
+  geometry.vertices.push(new t.Vector3(1, -1, 0));
+  geometry.faces.push(new t.Face3(0, 1, 2));
+
+  geometry.faces[0].vertexColors[0] = new t.Color('rgb(230,220,140)');
+  geometry.faces[0].vertexColors[1] = new t.Color('rgb(100,20,20)');
+  geometry.faces[0].vertexColors[2] = new t.Color('rgb(100,20,20)');
+
+  var material = new t.MeshBasicMaterial({
+    side: t.DoubleSide,
+    transparent: true,
+    wireframe: true,
+    vertexColors: t.VertexColors
+  });
+
+  var mesh = new t.Mesh(geometry, material);
+
+  scene.add(mesh);
+}
+
+createTriangle_basic();
 
 // ========== GEOMETRY CREATION / end ============
 
@@ -188,8 +210,6 @@ gridHelper.setColors('rgb(250,200,100)', 'rgb(120,120,80)');
 
 // ========== SCENE CREATION / start ==========
 // OBJECT/SCENE GENERATION
-
-// creating grid
 
 // OBJECT/SCENE MODIFICATION
 camera.position.z = 5;
@@ -228,4 +248,4 @@ function render() {
 }
 render();
 
-// ========== RENDER LOOP / start ==========
+// ========== RENDER LOOP / end ==========

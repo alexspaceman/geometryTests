@@ -11,8 +11,8 @@ document.body.appendChild(renderer.domElement)
 
 
 // CONTROLS
-var gameEnvironment = {}
-var controller = {}
+let gameEnvironment = {}
+let controller = {}
 controller.modifiers = {}
 camera.controls = {}
 camera.controls.movement = {}
@@ -51,7 +51,7 @@ document.addEventListener("mouseup", onDocumentMouseUp, false)
 
 // EVENT FUNCTIONS
 function onDocumentKeyDown (event) {
-  var keyCode = event.which
+  let keyCode = event.which
   console.log(keyCode, 'key down')
 
   switch (keyCode) {
@@ -67,7 +67,7 @@ function onDocumentKeyDown (event) {
 }
 
 function onDocumentKeyUp (event) {
-  var keyCode = event.which
+  let keyCode = event.which
   console.log(keyCode, 'key up')
 
   switch (keyCode) {
@@ -168,7 +168,30 @@ const defaultWFPlane    = {
 
 
 // ========== GEOMETRY CREATION / start ==========
-// start with triangles
+function createTriangle_basic () {
+  let geometry = new t.Geometry()
+  geometry.vertices.push(new t.Vector3(0,1,0))
+  geometry.vertices.push(new t.Vector3(-1,-1,0))
+  geometry.vertices.push(new t.Vector3(1,-1,0))
+  geometry.faces.push(new t.Face3(0,1,2))
+
+  geometry.faces[0].vertexColors[0] = new t.Color('rgb(230,220,140)')
+  geometry.faces[0].vertexColors[1] = new t.Color('rgb(100,20,20)')
+  geometry.faces[0].vertexColors[2] = new t.Color('rgb(100,20,20)')
+
+  let material = new t.MeshBasicMaterial({
+    side: t.DoubleSide
+  , transparent: true
+  , wireframe: true
+  , vertexColors: t.VertexColors
+  })
+
+  let mesh = new t.Mesh(geometry, material)
+
+  scene.add(mesh)
+}
+
+createTriangle_basic()
 
 
 // ========== GEOMETRY CREATION / end ============
@@ -228,4 +251,4 @@ function render () {
 render()
 
 
-// ========== RENDER LOOP / start ==========
+// ========== RENDER LOOP / end ==========
