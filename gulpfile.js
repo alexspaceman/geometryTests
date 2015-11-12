@@ -4,7 +4,7 @@ var concat = require('gulp-concat')
 var babel = require('gulp-babel')
 
 gulp.task('gameScripts', function() {
-  gulp.src('./js/scripts/*.js')
+  gulp.src(['./js/scripts/*.js', './js/scripts/*.jsx'])
   .pipe(plumber())
   .pipe(babel())
   .pipe(concat('game.build.js'))
