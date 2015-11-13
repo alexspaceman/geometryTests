@@ -147,9 +147,22 @@ function objNumber() {
 }
 
 function moveObjectByName(objectName, position) {
-  getObjectByName(objectName).position.x = position[0];
-  getObjectByName(objectName).position.y = position[1];
-  getObjectByName(objectName).position.z = position[2];
+  var object = getObjectByName(objectName);
+
+  object.position.x = position[0];
+  object.position.y = position[1];
+  object.position.z = position[2];
+}
+
+function modifyVertices(objectName, options) {
+  options = options || {};
+  options.whichVertex = options.whichVertex || 0;
+  options.newVector3 = options.newVector3 || new t.Vector3(0, 20, 0);
+
+  var object = getObjectByName(objectName);
+
+  object.geometry.vertices[options.whichVertex] = options.newVector3;
+  object.geometry.verticesNeedUpdate = true;
 }
 
 // GEOMETRY HELPERS
@@ -188,7 +201,7 @@ function createTriangle_basic() {
   var material = new t.MeshBasicMaterial({
     side: t.DoubleSide,
     transparent: true,
-    wireframe: true,
+    wireframe: false,
     vertexColors: t.VertexColors
   });
 
@@ -198,11 +211,26 @@ function createTriangle_basic() {
   scene.add(mesh);
 }
 
-createTriangle_basic();
+// createTriangle_basic()
 
-// getObjectByName('triangle').geometry.verticesNeedUpdate = true
-// getObjectByName('triangle').geometry.vertices[0] = new t.Vector3(0,3,0)
-// getObjectByName('triangle').geometry.verticesNeedUpdate = true
+function createTriangle(options) {
+  options = options || {};
+
+  options.geometry = options.geometry || new t.Geometry();
+  options.geometry.vertices = [new t.Vector3(0, 1, 0), new t.Vector3(-1, -1, 0), new t.Vector3(1, -1, 0)];
+  options.geometry.faces = [new t.Face3(0, 1, 2)];
+
+  options.material = options.material || new t.MeshBasicMaterial({
+    side: t.DoubleSide
+  });
+
+  var mesh = new t.Mesh(options.geometry, options.material);
+  mesh.name = options.name || 'triangle' + objNumber();
+
+  scene.add(mesh);
+}
+
+createTriangle();
 
 // ========== GEOMETRY CREATION / end ============
 
@@ -215,6 +243,12 @@ gridHelper.setColors('rgb(250,200,100)', 'rgb(120,120,80)');
 
 // ========== SCENE CREATION / start ==========
 // OBJECT/SCENE GENERATION
+function initializeScene() {
+  // modifyVertices('triangle')
+  console.log('initialized!');
+}
+
+initializeScene();
 
 // OBJECT/SCENE MODIFICATION
 camera.position.z = 5;
@@ -237,13 +271,12 @@ function render() {
 
   if (controller.modifiers.shift) {
     camera.controls.movement.speed = camera.controls.movement.speedBase * controller.modifiers.shiftSpeed;
-    getObjectByName('triangle').geometry.vertices[0] = new t.Vector3(0, 5, 0);
-    getObjectByName('triangle').geometry.verticesNeedUpdate = true;
+    // modifyVertices('triangle', { newVector3: new t.Vector3(0,5,0) })
   } else {
-    camera.controls.movement.speed = camera.controls.movement.speedBase;
-    getObjectByName('triangle').geometry.vertices[0] = new t.Vector3(0, 1, 0);
-    getObjectByName('triangle').geometry.verticesNeedUpdate = true;
-  }
+      camera.controls.movement.speed = camera.controls.movement.speedBase;
+      // this triggers over and over (VERY BAD!)
+      // modifyVertices('triangle', { newVector3: new t.Vector3(0,1,0) })
+    }
 
   if (camera.controls.mouse.leftClick) {
     if (camera.controls.mouse.moving) {
